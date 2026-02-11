@@ -1,0 +1,48 @@
+# sysconfig-build-integration Specification
+
+## Purpose
+TBD - created by archiving change add-build-ldflags-integration. Update Purpose after archive.
+## 需求
+### 需求：构建脚本的 ldflags 注入机制
+所有构建脚本（build.sh、build-windows.bat、build-macos*.sh）必须为 Go 编译器添加 ldflags 参数，自动或通过参数化方式注入 sysconfig 的四个标准变量（Version、BuildTime、GitCommit、ConfigDir）。
+
+#### 场景：执行构建脚本
+- **当** 运行任何构建脚本（如 `./build.sh`）
+- **那么** 最终生成的二进制文件必须包含注入的系统配置信息
+
+### 需求：构建脚本参数标准化
+构建脚本必须支持以下参数（可通过环境变量或命令行参数指定）：
+- VERSION：应用版本号（默认：`dev`）
+- BUILD_TIME：构建时间（默认：当前时间，ISO 8601 格式）
+- GIT_COMMIT：Git 提交哈希（默认：当前分支最新提交，简称）
+- CONFIG_DIR：配置文件目录（默认：平台约定位置，如 `/etc/app`）
+
+#### 场景：自定义版本构建
+- **当** 开发者需要为特定版本构建（如 release 版本）
+- **那么** 可通过参数指定版本号：`./build.sh v1.0.0` 或 `VERSION=v1.0.0 ./build.sh`
+
+### 需求：跨平台脚本一致性
+Linux/Unix（build.sh）、Windows（build-windows.bat）、macOS 专用脚本必须遵循一致的参数与 ldflags 注入逻辑，只在平台特定的命令语法上有所不同。
+
+#### 场景：多平台开发
+- **当** 开发者在不同平台上构建应用
+- **那么** 必须获得一致的系统配置信息注入结果
+
+### 需求：Wails build 与 ldflags 集成
+构建脚本必须确保 ldflags 参数正确传递到 Go 编译器，无论是通过 `wails build` 的原生支持还是通过其他方式（如环境变量）。
+
+#### 场景：版本检查
+- **当** 应用启动时调用 sysconfig.GetVersion()
+- **那么** 必须返回通过 ldflags 注入的版本号，而不是默认值 `dev`
+
+### 需求：构建脚本文档
+项目必须提供清晰的文档说明如何使用构建脚本及其参数，包括：
+- 参数列表与默认值
+- 常见用法示例（开发构建、发布构建）
+- 跨平台使用说明
+- 调试 ldflags 注入的方法
+
+#### 场景：查阅构建说明
+- **当** 新开发者查阅如何进行构建与版本注入
+- **那么** 必须找到完整且易懂的文档说明
+

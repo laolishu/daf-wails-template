@@ -1,0 +1,16 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "daf-wails-template",
+  "outputfilename": "daf-wails-template",
+  "frontend:dir": "frontend",
+  "assetdir": "frontend/dist",
+  "frontend:install": "pnpm install",
+  "frontend:build": "pnpm run build",
+  "frontend:dev:watcher": "pnpm run dev",
+  "frontend:dev:serverUrl": "http://localhost:5173",
+  "icon": "appicon.ico",
+  "author": {
+    "name": "lfz",
+    "email": "lfzxs@qq.com"
+  }
+}

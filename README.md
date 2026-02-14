@@ -34,7 +34,7 @@ Focus on building your product --- not rebuilding foundations.
 ------------------------------------------------------------------------
 ## 🖼 Preview
 
-![App Screenshot](docs/settings.png)
+![App Screenshot](docs/Settings.png)
 
 ## ✨ Features
 

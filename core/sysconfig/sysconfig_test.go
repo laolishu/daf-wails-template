@@ -11,6 +11,7 @@ func TestGetInfo(t *testing.T) {
 	GitCommit = "abc1234"
 	ConfigDir = "/etc/daf-app"
 	ConfigFile = "app.yml"
+	UpdateEndpoint = "https://updates.example.com/check"
 
 	info := GetInfo()
 
@@ -28,6 +29,9 @@ func TestGetInfo(t *testing.T) {
 	}
 	if info.ConfigFile != "app.yml" {
 		t.Errorf("Expected ConfigFile=app.yml, got %s", info.ConfigFile)
+	}
+	if info.UpdateEndpoint != "https://updates.example.com/check" {
+		t.Errorf("Expected UpdateEndpoint=https://updates.example.com/check, got %s", info.UpdateEndpoint)
 	}
 }
 
@@ -66,6 +70,13 @@ func TestGetConfigFile(t *testing.T) {
 	}
 }
 
+func TestGetUpdateEndpoint(t *testing.T) {
+	UpdateEndpoint = "https://updates.example.com/check"
+	if GetUpdateEndpoint() != "https://updates.example.com/check" {
+		t.Errorf("Expected https://updates.example.com/check, got %s", GetUpdateEndpoint())
+	}
+}
+
 func TestZeroValues(t *testing.T) {
 	// 检查零值（未被注入时的状态）
 	Version = "dev"
@@ -73,6 +84,7 @@ func TestZeroValues(t *testing.T) {
 	GitCommit = "unknown"
 	ConfigDir = ""
 	ConfigFile = "config.yml"
+	UpdateEndpoint = ""
 
 	if Version != "dev" {
 		t.Errorf("Expected default version=dev, got %s", Version)
@@ -88,5 +100,8 @@ func TestZeroValues(t *testing.T) {
 	}
 	if ConfigFile != "config.yml" {
 		t.Errorf("Expected default ConfigFile=config.yml, got %s", ConfigFile)
+	}
+	if UpdateEndpoint != "" {
+		t.Errorf("Expected empty UpdateEndpoint, got %s", UpdateEndpoint)
 	}
 }

@@ -44,6 +44,21 @@ type Messages = {
   upgradeTitle: string;
   upgradeDesc: string;
   upgradeCta: string;
+  upgradeModalTitle: string;
+  upgradeChecking: string;
+  upgradeCheckError: string;
+  upgradeCurrentLabel: string;
+  upgradeLatestLabel: string;
+  upgradeForceLabel: string;
+  upgradeForceYes: string;
+  upgradeForceNo: string;
+  upgradeReleaseNotesLabel: string;
+  upgradeDownloadUrlLabel: string;
+  upgradeDownloadButton: string;
+  upgradeCancelButton: string;
+  upgradeDownloadResultTitle: string;
+  upgradeDownloadSuccess: string;
+  upgradeDownloadError: string;
 };
 
 export const messages: Record<Language, Messages> = {
@@ -91,6 +106,21 @@ export const messages: Record<Language, Messages> = {
     upgradeTitle: "升级",
     upgradeDesc: "检查可用更新并保持安装为最新。",
     upgradeCta: "检查更新",
+    upgradeModalTitle: "升级信息",
+    upgradeChecking: "正在检查更新...",
+    upgradeCheckError: "检查更新失败",
+    upgradeCurrentLabel: "当前版本",
+    upgradeLatestLabel: "最新版本",
+    upgradeForceLabel: "是否强更",
+    upgradeForceYes: "是",
+    upgradeForceNo: "否",
+    upgradeReleaseNotesLabel: "发布说明",
+    upgradeDownloadUrlLabel: "下载地址",
+    upgradeDownloadButton: "下载更新",
+    upgradeCancelButton: "取消",
+    upgradeDownloadResultTitle: "下载结果",
+    upgradeDownloadSuccess: "下载完成，安装包已解压到:",
+    upgradeDownloadError: "下载失败",
   },
   "en-US": {
     navHealthCheck: "Health Check",
@@ -136,6 +166,21 @@ export const messages: Record<Language, Messages> = {
     upgradeTitle: "Upgrade",
     upgradeDesc: "Check for available updates and keep your installation current.",
     upgradeCta: "Check for Updates",
+    upgradeModalTitle: "Update Details",
+    upgradeChecking: "Checking for updates...",
+    upgradeCheckError: "Update check failed",
+    upgradeCurrentLabel: "Current Version",
+    upgradeLatestLabel: "Latest Version",
+    upgradeForceLabel: "Force Update",
+    upgradeForceYes: "Yes",
+    upgradeForceNo: "No",
+    upgradeReleaseNotesLabel: "Release Notes",
+    upgradeDownloadUrlLabel: "Download URL",
+    upgradeDownloadButton: "Download Update",
+    upgradeCancelButton: "Cancel",
+    upgradeDownloadResultTitle: "Download Result",
+    upgradeDownloadSuccess: "Download complete. Files extracted to:",
+    upgradeDownloadError: "Download failed",
   },
 };
 

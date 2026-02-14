@@ -8,6 +8,8 @@ Language: [English](README.md) | [中文](README.zh-CN.md)
 Build modern desktop applications with Wails --- without rebuilding
 infrastructure every time.
 
+
+
 ------------------------------------------------------------------------
 
 ## 🚀 Why daf-wails-template?
@@ -30,6 +32,9 @@ architecture.
 Focus on building your product --- not rebuilding foundations.
 
 ------------------------------------------------------------------------
+## 🖼 Preview
+
+![App Screenshot](docs/settings.png)
 
 ## ✨ Features
 
@@ -139,7 +144,7 @@ If variables are defined in another package, use full path:
 ## 🖥 Default UI Pages
 
 -   **Health Check** -- operational landing page
--   **About / System Info** -- version, build time, environment
+-   **Settings** -- version, build time, environment
 -   Sidebar layout with clean desktop-style navigation
 
 Designed for SaaS companion apps, internal tools, and system utilities.

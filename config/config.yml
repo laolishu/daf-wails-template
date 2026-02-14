@@ -1,10 +1,10 @@
 i18n:
-    language: zh-CN
+    language: en-US
 log:
     dir: logs
     level: info
     retention_days: 7
 window:
     height: 800
-    title: DAF Wails App1
+    title: DAF Wails App
     width: 1200

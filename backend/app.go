@@ -4,7 +4,7 @@
  * @Author: lfzxs@qq.com
  * @Date: 2026-02-05 15:38:06
  * @LastEditors: lfzxs@qq.com
- * @LastEditTime: 2026-02-10 16:38:03
+ * @LastEditTime: 2026-02-11 21:30:20
  */
 package backend
 
@@ -12,10 +12,14 @@ import (
 	"context"
 	"daf-wails-template/core/config"
 	"daf-wails-template/core/logger"
+	"daf-wails-template/core/sysconfig"
 	"daf-wails-template/core/systeminfo"
+	"daf-wails-template/core/updater"
 	"fmt"
 	"io/fs"
 	"log/slog"
+	"runtime"
+	"strings"
 	"time"
 
 	"github.com/wailsapp/wails/v2"
@@ -132,6 +136,84 @@ func (a *App) GetConfigSummary() (ConfigSummary, error) {
 		LogLevel: a.config.GetLogLevel(),
 		LogDir:   a.config.GetLogDir(),
 	}, nil
+}
+
+type UpdateCheckResponse struct {
+	Info           updater.UpdateInfo `json:"info"`
+	CurrentVersion string             `json:"currentVersion"`
+}
+
+func (a *App) CheckForUpdate(channel string) (UpdateCheckResponse, error) {
+	ctx := a.ctx
+	if ctx == nil {
+		ctx = context.Background()
+	}
+
+	endpoint := strings.TrimSpace(sysconfig.GetUpdateEndpoint())
+	if endpoint == "" {
+		return UpdateCheckResponse{}, fmt.Errorf("update endpoint is not configured")
+	}
+
+	appID := config.DefaultWindowTitle
+	if a.config != nil {
+		appID = a.config.GetWindowTitle()
+	}
+
+	requestedChannel := strings.TrimSpace(channel)
+	if requestedChannel == "" {
+		requestedChannel = "stable"
+	}
+
+	provider := &updater.HTTPProvider{Endpoint: endpoint}
+	info, err := provider.Check(ctx, updater.UpdateRequest{
+		AppID:    appID,
+		Version:  sysconfig.GetVersion(),
+		Platform: runtime.GOOS,
+		Arch:     runtime.GOARCH,
+		Channel:  requestedChannel,
+	})
+	if err != nil {
+		return UpdateCheckResponse{}, err
+	}
+
+	return UpdateCheckResponse{Info: info, CurrentVersion: sysconfig.GetVersion()}, nil
+}
+
+func (a *App) DownloadUpdate(info updater.UpdateInfo) (updater.InstallResult, error) {
+	ctx := a.ctx
+	if ctx == nil {
+		ctx = context.Background()
+	}
+
+	installer := &updater.BasicInstaller{}
+	pipeline := &updater.Updater{
+		Provider:   updaterInfoProvider{info: info},
+		Policy:     updater.AllowAllPolicy{},
+		Downloader: installerDownloader{installer: installer},
+		Verifier:   updater.SHA256Verifier{},
+		Installer:  installer,
+	}
+
+	return pipeline.Run(ctx, updater.UpdateRequest{})
+}
+
+type updaterInfoProvider struct {
+	info updater.UpdateInfo
+}
+
+func (p updaterInfoProvider) Check(ctx context.Context, req updater.UpdateRequest) (updater.UpdateInfo, error) {
+	return p.info, nil
+}
+
+type installerDownloader struct {
+	installer *updater.BasicInstaller
+}
+
+func (d installerDownloader) Download(ctx context.Context, info updater.UpdateInfo) (updater.DownloadResult, error) {
+	if d.installer == nil {
+		return updater.DownloadResult{}, fmt.Errorf("installer is nil")
+	}
+	return d.installer.Download(ctx, info)
 }
 
 func (a *App) initConfig() error {

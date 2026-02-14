@@ -9,7 +9,9 @@ Build modern desktop applications with Wails --- without rebuilding
 infrastructure every time.
 
 
+## 🖼 Preview
 
+![App Screenshot](docs/Settings.png)
 ------------------------------------------------------------------------
 
 ## 🚀 Why daf-wails-template?
@@ -32,9 +34,6 @@ architecture.
 Focus on building your product --- not rebuilding foundations.
 
 ------------------------------------------------------------------------
-## 🖼 Preview
-
-![App Screenshot](docs/Settings.png)
 
 ## ✨ Features
 
